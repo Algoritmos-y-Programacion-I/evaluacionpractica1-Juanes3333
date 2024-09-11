@@ -7,7 +7,7 @@ public class Guacamaya {
     public static Scanner reader;
     public static double[] precios;
     public static int[] unidades;
-
+    public static int[] calculado;
     public static void main(String[] args) {
 
         inicializarGlobales();
@@ -82,13 +82,6 @@ public class Guacamaya {
 
     }
 
-    /**
-     * Descripcion: Este metodo se encarga de preguntar al usuario el numero de referencias de producto diferentes 
-     * vendidas en el dia e inicializa con ese valor los arreglos encargados de almacenar precios y cantidades
-     * pre: El Scanner reader debe estar inicializado
-     * pre: Los arreglos precios y unidades deben estar declarados
-     * pos: Los arreglos precios y unidades quedan inicializados
-     */
     public static void establecerCantidadVendida() {
 
         System.out.println("\nDigite el numero de referencias de producto diferentes vendidas en el dia ");
@@ -96,35 +89,113 @@ public class Guacamaya {
 
         precios = new double[referencias];
         unidades = new int[referencias];
+        calculado = new int[precios.length];
 
     }
 
     public static void solicitarDatos(){
+    int i= 0;
 
-     
+    do{
+                System.out.println("Digite el precio del producto "+(i+1)+".");
+                double valor = reader.nextDouble();
+                System.out.println("Digite las unidades vendidas del producto "+(i+1)+".");
+                int unidadesProducto = reader.nextInt();
+             precios[i]=valor;
+             unidades[i]=unidadesProducto;
+        i++;
+        if (i==precios.length) {
+            break;
+        }
+    }while(i<precios.length);
     }
-
+    
+/** 
+     * Descripcion: Este metodo se encarga de calcular el total de las unidades vendidas.
+     * @return int El numero del total de unidades vendidas. 
+     * pre: El arreglo unidades debe estar inicializado y no ser nulo.
+     * pos: El valor de retorno es la suma de todos los elementos del arreglo unidades.
+    */
     public static int calcularTotalUnidadesVendidas(){
 
-        return 0;
+        int i= 0;
+        int sumatoria = 0;
+        do{
+            sumatoria += unidades[i];
+            i++;
+        }while(i<unidades.length);
+    
+        return sumatoria;
 
     }
 
+/** 
+     * Descripcion: Este metodo se encarga de calcular el precio promedio de los productos.
+     * @return double el precio promedio. 
+     * pre: El arreglo precios debe estar inicializado y no ser nulo.
+     * pos: El valor de retorno es el promedio de todos los elementos del arreglo precios.
+    */
     public static double calcularPrecioPromedio(){
-
-        return 0;
+        int i= 0;
+        double sumatoria = 0;
+        double promedio = 0;
+        do{
+            sumatoria += precios[i];
+            i++;
+        }while(i<precios.length);
+    
+        promedio = sumatoria / precios.length;
+    
+        return promedio;
 
     }
 
+/** 
+     * Descripcion: Este metodo se encarga de calcular las ventas totales.
+     * @return double las ventas totales. 
+     * pre: Los arreglos precios y unidades deben estar inicializados y no ser nulos, y deben tener la misma longitud.
+     * pos: El valor de retorno es la suma de la multiplicación de cada elemento correspondiente de precios y unidades.
+    */
     public static double calcularVentasTotales(){
-
-        return 0;
+        int i= 0;
+        int sumatoria = 0;
+        do{
+            sumatoria += (precios[i]*unidades[i]);
+            
+            if (i==precios.length) {
+                break;
+            }
+            i++;
+        }while(i<precios.length);
+    
+        return sumatoria;
 
     }
 
+/** 
+     * Descripcion: Este metodo se encarga de consultar la cantidad de referencias con un precio superior al límite especificados.
+     * @return double las ventas totales. 
+     * @param limite El límite de precio a partir del cual se contarán las referencias.
+     * pre: El arreglo precios debe estar inicializado y no ser nulo.
+     * pos: El valor de retorno es la cantidad de elementos en precios que son mayores a limite.
+    */
     public static int consultarReferenciasSobreLimite(double limite){
-
-        return 0;
+        int i= 0;
+        int mayorLimite = 0;
+    
+        do{
+            int totalVenta = 0;
+                totalVenta += (precios[i]*unidades[i]);
+                calculado[i]=totalVenta;
+                if(calculado[i]>limite){
+                    mayorLimite++;
+                }
+            if (i==precios.length) {
+                break;
+            }
+            i++;
+        }while(i<precios.length);
+        return mayorLimite;
 
     }
 
